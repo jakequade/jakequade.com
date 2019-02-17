@@ -4,15 +4,10 @@
 {-# LANGUAGE TypeFamilies          #-}
 module Handler.AboutMe where
 
-import         Yesod
-
-data AboutMe = AboutMe
-
-mkYesod "AboutMe" [parseRoutes|
-/ AboutMeR GET
-|]
-
-instance Yesod AboutMe
+import        Yesod
+import        Import
 
 getAboutMeR :: Handler Html
-getAboutMeR = defaultLayout [whamlet|Hi there :)|]
+getAboutMeR = defaultLayout $ do
+    setTitle "About Jake"
+    addWidget $(widgetFile "about-me")

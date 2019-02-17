@@ -12,3 +12,8 @@
 /comments CommentR POST
 
 /profile ProfileR GET
+
+-- Start of my routes
+
+/about-me AboutMeR GET
+/blog BlogR GET

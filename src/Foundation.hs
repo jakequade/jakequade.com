@@ -116,9 +116,16 @@ instance Yesod App where
                     , menuItemAccessCallback = True
                     }
                 , NavbarLeft $ MenuItem
-                    { menuItemLabel = "Profile"
-                    , menuItemRoute = ProfileR
-                    , menuItemAccessCallback = isJust muser
+                    {
+                      menuItemLabel = "About"
+                    , menuItemRoute = AboutMeR
+                    , menuItemAccessCallback = True
+                    }
+                , NavbarLeft $ MenuItem
+                    {
+                      menuItemLabel = "Blog"
+                    , menuItemRoute = BlogR
+                    , menuItemAccessCallback = True
                     }
                 , NavbarRight $ MenuItem
                     { menuItemLabel = "Login"
@@ -160,6 +167,8 @@ instance Yesod App where
         -> Bool       -- ^ Whether or not this is a "write" request.
         -> Handler AuthResult
     -- Routes not requiring authentication.
+    isAuthorized AboutMeR _ = return Authorized
+    isAuthorized BlogR _ = return Authorized
     isAuthorized (AuthR _) _ = return Authorized
     isAuthorized CommentR _ = return Authorized
     isAuthorized HomeR _ = return Authorized
@@ -215,6 +224,7 @@ instance YesodBreadcrumbs App where
     breadcrumb
         :: Route App  -- ^ The route the user is visiting currently.
         -> Handler (Text, Maybe (Route App))
+    breadcrumb AboutMeR = return ("Go back", Just HomeR)
     breadcrumb HomeR = return ("Home", Nothing)
     breadcrumb (AuthR _) = return ("Login", Just HomeR)
     breadcrumb ProfileR = return ("Profile", Just HomeR)
